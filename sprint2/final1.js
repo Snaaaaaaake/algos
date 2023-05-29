@@ -17,8 +17,8 @@ const _readline = require("readline");
 А также проверять, что мы не пытаемся превысить максимально допустимый размер, чтобы не получилось, что индекс конца превысил индекс начала.
 
 -- ВРЕМЕННАЯ СЛОЖНОСТЬ --
-Добавление и удаление O(1), потому что в каждом методе идёт присвоение или извлечение из внутреннего массива по индексу головы/хвоста, а это O(1). 
-Сопутствующие вычисления также все константны.
+Любой из методов выполняет либо добавление, либо удаление данных (и константные вычисления) из внутреннего массива по индексу головы/хвоста, а это O(1). 
+На вход подаётся n команд, к каждой из которых нужно применить один из методов. Следовательно общая сложность будет O(n)
 
 -- ПРОСТРАНСТВЕННАЯ СЛОЖНОСТЬ --
 Т.к. дек основан на массиве, то размер потребляемой памяти будет O(k), где k это переданный размер дека.
@@ -26,6 +26,8 @@ const _readline = require("readline");
 */
 
 class Deq {
+  static ERROR_MESSAGE = "error";
+
   /** @param {number} n */
   constructor(n) {
     /** @type {Array<number | null>} */
@@ -40,8 +42,8 @@ class Deq {
   /** @param {number} value */
   pushBack = (value) => {
     // Проверяем, что допустимый размер не достиг лимита (проверка на "больше" не нужна, т.к. увеличивается всегда на 1)
-    if (this._size === this._maxSize) {
-      return "error";
+    if (this._isFull()) {
+      return Deq.ERROR_MESSAGE;
     }
 
     // Нужно отдельно обработать кейс пустого списка, чтобы _head и _tail ссылались на одно место, иначе указатели разъедутся
@@ -64,8 +66,8 @@ class Deq {
   // Реализация идентична pushBack
   /** @param {number} value */
   pushFront = (value) => {
-    if (this._size === this._maxSize) {
-      return "error";
+    if (this._isFull()) {
+      return Deq.ERROR_MESSAGE;
     }
 
     if (this._isEmpty()) {
@@ -82,7 +84,7 @@ class Deq {
   popBack = () => {
     // Проверяем, что не пустой
     if (this._isEmpty()) {
-      return "error";
+      return Deq.ERROR_MESSAGE;
     }
 
     // Получаем требуемые данные, чтобы впоследствии их отдать
@@ -100,7 +102,7 @@ class Deq {
   // Реализация идентична popBack
   popFront = () => {
     if (this._isEmpty()) {
-      return "error";
+      return Deq.ERROR_MESSAGE;
     }
 
     const response = this._stack[this._head];
@@ -113,6 +115,10 @@ class Deq {
 
   _isEmpty = () => {
     return this._size === 0;
+  };
+
+  _isFull = () => {
+    return this._size === this._maxSize;
   };
 }
 

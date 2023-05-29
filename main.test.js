@@ -3,12 +3,10 @@ const testMe = require("./main").testMe;
 const logger = (/** @type {string} */ str) => str;
 
 test("main1", () => {
-  const test1 = ["4", "4", "push_front 861", "push_front -819", "pop_back", "pop_back"];
-  expect(testMe(test1, logger)).toBe(`861\n-819`);
-  const test2 = ["7", "10", "push_front -855", "push_front 0", "pop_back", "pop_back", "push_back 844", "pop_back", "push_back 823"];
-  expect(testMe(test2, logger)).toBe(`-855\n0\n844`);
-  const test3 = ["6", "6", "push_front -201", "push_back 959", "push_back 102", "push_front 20", "pop_front", "pop_back"];
-  expect(testMe(test3, logger)).toBe(`20\n102`);
+  const test1 = ["2 1 + 3 *"];
+  expect(testMe(test1, logger)).toBe("9");
+  const test2 = ["7 2 + 4 * 2 +"];
+  expect(testMe(test2, logger)).toBe("38");
 });
 
 // const solution = require("./main").solution;
